@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daywise History</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f6f9; padding: 40px 20px; text-align: center; }
+        .list-container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f7fafc; }
+        button { background: #34495e; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 20px; }
+        .clear-btn { background: #e74c3c; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <div class="list-container">
+        <h2>📅 Daywise History Log</h2>
+        <button onclick="window.location.href='dashboard.html'">⬅️ Back to Dashboard</button>
+        <button class="clear-btn" onclick="clearData()">Clear All Records ⚠️</button>
+        <table>
+            <thead><tr><th>Date & Time</th><th>Duration</th></tr></thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+    <script>
+        const history = JSON.parse(localStorage.getItem("studyHistory")) || [];
+        const body = document.getElementById("tableBody");
+
+        if (history.length === 0) {
+            body.innerHTML = `<tr><td colspan="2" style="text-align:center; color:gray;">No data tracked yet!</td></tr>`;
+        } else {
+            history.reverse().forEach(s => {
+                const d = new Date(s.date);
+                const format = d.toLocaleDateString() + " " + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                body.innerHTML += `<tr><td><strong>${format}</strong></td><td>${s.hours.toFixed(1)} hrs</td></tr>`;
+            });
+        }
+
+        function clearData() {
+            if(confirm("Delete all records permanently?")) {
+                localStorage.removeItem("studyHistory");
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
+    

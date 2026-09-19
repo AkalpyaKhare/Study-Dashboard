@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        input, button {
+            padding: 8px;
+            font-size: 1rem;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="greetingTitle">Welcome!</h1>
+    
+    <p>What can I call you?</p>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    
+    <!-- This button saves the name and takes you to the next page -->
+    <button onclick="goToNextPage()">Submit</button>
+
+    <script>
+        // Check the time to show the right greeting prefix
+        function getTimeGreeting() {
+            const currentHour = new Date().getHours();
+            if (currentHour >= 5 && currentHour < 12) {
+                return "☀️ Good Morning";
+            } else if (currentHour >= 12 && currentHour < 18) {
+                return "🌤️ Good Afternoon";
+            } else {
+                return "🌙 Good Evening";
+            }
+        }
+
+        // Show the greeting as soon as the page opens
+        const greetingPrefix = getTimeGreeting();
+        document.getElementById("greetingTitle").textContent = greetingPrefix + "!";
+
+        function goToNextPage() {
+            const userName = document.getElementById("nameInput").value;
+
+            if (userName.trim() === "") {
+                alert("Please enter your name first!");
+                return;
+            }
+
+            // 1. Save the name on our browser's "sticky note"
+            localStorage.setItem("savedName", userName);
+            localStorage.setItem("savedGreeting", greetingPrefix);
+
+            // 2. Change the browser window to open the next file
+            window.location.href = "goals.html";
+        }
+    </script>
+
+</body>
+</html>

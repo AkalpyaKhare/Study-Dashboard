@@ -1,0 +1,573 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Dashboard</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fb;
+            margin: 0;
+            padding: 30px;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* ---------- HEADER ---------- */
+
+        header {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin-bottom: 0;
+            font-size: 17px;
+        }
+
+        /* ---------- MAIN LAYOUT ---------- */
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        /* ---------- CARDS ---------- */
+
+        .card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        /* ---------- STUDY STATISTICS ---------- */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .stat {
+            background-color: #f1f5f9;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .stat p {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        /* ---------- TASK INPUT ---------- */
+
+        .task-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .task-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .task-input button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* ---------- TASK LIST ---------- */
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            background-color: #f8fafc;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            background-color: #f43f5e;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .history-btn {
+    width: 100%;
+    background-color: #9333ea;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.history-btn:hover {
+    background-color: #7e22ce;
+}
+
+        /* ---------- TIMER ---------- */
+
+        .timer-card {
+            text-align: center;
+        }
+
+        #timer {
+            font-size: 50px;
+            font-weight: bold;
+            font-family: monospace;
+            margin: 20px 0;
+        }
+
+        .timer-buttons button {
+            border: none;
+            padding: 10px 18px;
+            margin: 5px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            background-color: #4f46e5;
+        }
+
+        .timer-buttons .reset {
+            background-color: #64748b;
+        }
+
+        /* ---------- MOBILE ---------- */
+
+        @media (max-width: 750px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 15px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <h1 id="greeting">
+            Hello, Student!
+        </h1>
+
+        <p>
+            Let's make today productive.
+        </p>
+
+    </header>
+
+
+    <!-- ================= MAIN GRID ================= -->
+
+    <div class="grid">
+
+
+        <!-- ================= LEFT SIDE ================= -->
+
+        <main>
+
+
+            <!-- STUDY STATISTICS -->
+
+            <div class="card">
+
+                <h2>📊 Study Statistics</h2>
+
+                <div class="stats">
+
+
+                    <div class="stat">
+
+                        <h3>Today's Study</h3>
+
+                        <p id="todayHours">
+                            0.0 h
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <h3>Total Study</h3>
+
+                        <p id="totalHours">
+                            0.0 h
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <h3>Daily Goal</h3>
+
+                        <p id="dailyGoal">
+                            6 h
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= TASKS ================= -->
+
+            <div class="card">
+
+                <h2>📚 Today's Tasks</h2>
+
+                <div class="task-input">
+
+                    <input
+                        type="text"
+                        id="taskInput"
+                        placeholder="Enter your task..."
+                    >
+
+                    <button onclick="addTask()">
+                        Add Task
+                    </button>
+
+                </div>
+
+
+                <ul id="taskList"></ul>
+
+            </div>
+
+
+        </main>
+
+
+        <!-- ================= RIGHT SIDE ================= -->
+
+        <aside>
+
+
+            <!-- STUDY TIMER -->
+
+            <div class="card timer-card">
+
+                <h2>⏱️ Study Timer</h2>
+
+                <div id="timer">
+                    00:00:00
+                </div>
+
+
+                <div class="timer-buttons">
+
+                    <button onclick="startTimer()">
+                        Start
+                    </button>
+
+                    <button onclick="pauseTimer()">
+                        Pause
+                    </button>
+
+                    <button
+                        class="reset"
+                        onclick="resetTimer()"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </aside>
+
+        <div class="card">
+
+    <h2>📜 Study History</h2>
+
+    <button
+        class="history-btn"
+        onclick="goToHistory()"
+    >
+        View Previous History
+    </button>
+
+</div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+    /* =================================================
+       1. GET USER INFORMATION FROM LOCAL STORAGE
+       ================================================= */
+
+    const savedName = localStorage.getItem("savedName");
+
+    const savedGreeting =
+        localStorage.getItem("savedGreeting");
+
+
+    /* =================================================
+       2. DISPLAY USER NAME
+       ================================================= */
+
+    if (savedName && savedGreeting) {
+
+        document.getElementById("greeting").textContent =
+            savedGreeting + ", " + savedName + "!";
+
+    }
+
+
+    /* =================================================
+       3. TIMER VARIABLES
+       ================================================= */
+
+    let seconds = 0;
+
+    let timer = null;
+
+
+    /* =================================================
+       4. START TIMER
+       ================================================= */
+
+    function startTimer() {
+
+        /*
+        Prevent multiple timers from
+        running at the same time.
+        */
+
+        if (timer !== null) {
+
+            return;
+
+        }
+
+
+        timer = setInterval(function () {
+
+            seconds++;
+
+            updateTimerDisplay();
+
+        }, 1000);
+
+    }
+
+
+    /* =================================================
+       5. PAUSE TIMER
+       ================================================= */
+
+    function pauseTimer() {
+
+        clearInterval(timer);
+
+        timer = null;
+
+    }
+
+
+    /* =================================================
+       6. RESET TIMER
+       ================================================= */
+
+    function resetTimer() {
+
+        clearInterval(timer);
+
+        timer = null;
+
+        seconds = 0;
+
+        updateTimerDisplay();
+
+    }
+
+
+    /* =================================================
+       7. UPDATE TIMER DISPLAY
+       ================================================= */
+
+    function updateTimerDisplay() {
+
+        let hours =
+            Math.floor(seconds / 3600);
+
+
+        let minutes =
+            Math.floor(
+                (seconds % 3600) / 60
+            );
+
+
+        let secs =
+            seconds % 60;
+
+
+        document.getElementById("timer").textContent =
+
+            String(hours).padStart(2, "0") +
+
+            ":" +
+
+            String(minutes).padStart(2, "0") +
+
+            ":" +
+
+            String(secs).padStart(2, "0");
+
+    }
+
+
+    /* =================================================
+       8. ADD TASK
+       ================================================= */
+
+    function addTask() {
+
+        const input =
+            document.getElementById("taskInput");
+
+
+        const taskText =
+            input.value.trim();
+
+
+        /*
+        Don't add an empty task.
+        */
+
+        if (taskText === "") {
+
+            return;
+
+        }
+
+
+        const li =
+            document.createElement("li");
+
+
+        li.innerHTML = `
+
+            <span>
+                ${taskText}
+            </span>
+
+            <button
+                class="delete-btn"
+                onclick="this.parentElement.remove()"
+            >
+                Delete
+            </button>
+
+        `;
+
+
+        document
+            .getElementById("taskList")
+            .appendChild(li);
+
+
+        /*
+        Clear the input box.
+        */
+
+        input.value = "";
+
+    }
+
+    function goToHistory() {
+    window.location.href = "history.html";
+}
+
+</script>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Goals</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        input, button {
+            padding: 8px;
+            font-size: 1rem;
+            margin: 5px;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <!-- This heading updates automatically using the saved details -->
+    <h1 id="personalizedGreeting">Hello!</h1>
+
+    <p>How many goal hours do you want to achieve today?</p>
+    <input type="number" id="hoursInput" min="1" max="24" placeholder="e.g. 5">
+    
+    <button onclick="saveGoal()">Finish</button>
+
+    <br>
+    <br>
+
+
+    <button onclick="goToDashboard()">
+    Go to Dashboard
+</button>
+
+    <script>
+        // 1. Read the "sticky notes" we saved on the first page
+        const userName = localStorage.getItem("savedName");
+        const timeGreeting = localStorage.getItem("savedGreeting");
+
+        // 2. Display the customized greeting instantly
+        if (userName) {
+            document.getElementById("personalizedGreeting").textContent = `${timeGreeting}, ${userName}!`;
+        }
+
+        function saveGoal() {
+            const hours = document.getElementById("hoursInput").value;
+
+            if (hours === "") {
+                alert("Please enter your hours!");
+                return;
+            }
+
+
+            alert(`Awesome! Let's smash those ${hours} hours today, ${userName}!`);
+        }
+
+                    function goToDashboard() {
+    window.location.href = "dashboard.html";
+}
+    </script>
+
+</body>
+</html>
